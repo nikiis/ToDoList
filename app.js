@@ -2,9 +2,11 @@
 
 ***REMOVED***
 ***REMOVED***
+const date = require(__dirname + '/date.js')
 
 ***REMOVED***
-let items = ['cook food', 'buy food'];
+let items = ['eat food'];
+let workItems = [];
 
 ***REMOVED***
 ***REMOVED***
@@ -16,7 +18,6 @@ let items = ['cook food', 'buy food'];
 ***REMOVED***
 
     let today = new Date(***REMOVED***
-    let currentDay = today.getDay(***REMOVED***
 
     ***REMOVED***
     ***REMOVED***
@@ -26,9 +27,8 @@ let items = ['cook food', 'buy food'];
 
     let day = today.toLocaleDateString("en-US", options***REMOVED***
 
-
     res.render('list', {
-        kindOfDay: day,
+        listTitle: day,
         newListItems: items
 ***REMOVED***;
 ***REMOVED******REMOVED***
@@ -36,10 +36,26 @@ let items = ['cook food', 'buy food'];
 ***REMOVED***
 
     let item = req.body.newItem;
-    items.push(item***REMOVED***
-    console.log(items***REMOVED***
-    res.redirect('/'***REMOVED***
+
+    if (req.body.list === 'Work') {
+        workItems.push(item***REMOVED***
+        res.redirect('/work'***REMOVED***
+    ***REMOVED*** else {
+        items.push(item***REMOVED***
+        console.log(items***REMOVED***
+        res.redirect('/'***REMOVED***
+    ***REMOVED***
+
 ***REMOVED******REMOVED***
+
+
+app.get('/work', function (req, res) {
+    res.render('list', {
+        listTitle: 'Work List',
+        newListItems: workItems
+***REMOVED***;
+***REMOVED******REMOVED***
+
 
 app.listen(3000, function () {
     console.log("listening on port 3000"***REMOVED***
