@@ -2,9 +2,11 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const date = require(__dirname + '/date.js')
 
 const app = express();
-let items = ['cook food', 'buy food'];
+let items = ['eat food'];
+let workItems = [];
 
 //using ejs as view engine
 app.set('view engine', 'ejs');
@@ -16,7 +18,6 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
 
     let today = new Date();
-    let currentDay = today.getDay();
 
     let options = {
         weekday: 'long',
@@ -26,9 +27,8 @@ app.get('/', (req, res) => {
 
     let day = today.toLocaleDateString("en-US", options);
 
-
     res.render('list', {
-        kindOfDay: day,
+        listTitle: day,
         newListItems: items
     });
 });
@@ -36,10 +36,26 @@ app.get('/', (req, res) => {
 app.post('/', function (req, res) {
 
     let item = req.body.newItem;
-    items.push(item);
-    console.log(items);
-    res.redirect('/');
+
+    if (req.body.list === 'Work') {
+        workItems.push(item);
+        res.redirect('/work');
+    } else {
+        items.push(item);
+        console.log(items);
+        res.redirect('/');
+    }
+
 });
+
+
+app.get('/work', function (req, res) {
+    res.render('list', {
+        listTitle: 'Work List',
+        newListItems: workItems
+    });
+});
+
 
 app.listen(3000, function () {
     console.log("listening on port 3000");
