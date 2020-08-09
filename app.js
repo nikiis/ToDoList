@@ -57,6 +57,6 @@ app.get('/work', function (req, res) {
 ***REMOVED******REMOVED***
 
 
-app.listen(3000, function () {
+***REMOVED***
     console.log("listening on port 3000"***REMOVED***
 ***REMOVED******REMOVED***
