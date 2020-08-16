@@ -2,11 +2,12 @@
 
 ***REMOVED***
 ***REMOVED***
+***REMOVED***
 const date = require(__dirname + '/date.js')
 
 ***REMOVED***
-let items = ['eat food'];
-let workItems = [];
+// let items = ['eat food'];
+// let workItems = [];
 
 ***REMOVED***
 ***REMOVED***
@@ -14,6 +15,30 @@ let workItems = [];
     extended: true
 ***REMOVED***)***REMOVED***
 ***REMOVED***express.static('public')***REMOVED***
+
+***REMOVED***
+***REMOVED***'mongodb://localhost/todolistDB', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+***REMOVED******REMOVED***
+
+***REMOVED***
+    name: String
+***REMOVED******REMOVED***
+
+const Item = mongoose.model('Item', itemsSchema***REMOVED***
+
+***REMOVED***
+    name: 'eat food'
+***REMOVED******REMOVED***
+
+const item2 = new Item({
+    name: 'drink water'
+***REMOVED******REMOVED***
+
+
+const defaultItems = [item1, item2];
+
 
 ***REMOVED***
 
@@ -27,34 +52,54 @@ let workItems = [];
 
     let day = today.toLocaleDateString("en-US", options***REMOVED***
 
-    res.render('list', {
-        listTitle: day,
-        newListItems: items
+    Item.find({***REMOVED***, function (err, myItems) {
+***REMOVED***
+***REMOVED***
+***REMOVED***
+                    console.log(err***REMOVED***
+                ***REMOVED*** else {
+                    console.log("successfully added default items"***REMOVED***
+                ***REMOVED***
+                res.redirect("/"***REMOVED***
+        ***REMOVED***;
+        ***REMOVED*** else {
+            console.log(myItems***REMOVED***
+***REMOVED***
+***REMOVED***
+                newListItems: myItems
+        ***REMOVED***;
+
+        ***REMOVED***
 ***REMOVED***;
+
 ***REMOVED******REMOVED***
 
 ***REMOVED***
 
-    let item = req.body.newItem;
+***REMOVED***
 
-    if (req.body.list === 'Work') {
-        workItems.push(item***REMOVED***
-        res.redirect('/work'***REMOVED***
-    ***REMOVED*** else {
-        items.push(item***REMOVED***
-        console.log(items***REMOVED***
-        res.redirect('/'***REMOVED***
-    ***REMOVED***
+***REMOVED***
+        name: itemName
+***REMOVED***;
+
+    item.save(***REMOVED***
+    res.redirect("/"***REMOVED***
 
 ***REMOVED******REMOVED***
 
+***REMOVED***
+***REMOVED***
 
-app.get('/work', function (req, res) {
-    res.render('list', {
-        listTitle: 'Work List',
-        newListItems: workItems
+    Item.findByIdAndRemove(checkedBoxId, function (err) {
+        if (err) {
+            console.log(err***REMOVED***
+        ***REMOVED*** else {
+            res.redirect("/"***REMOVED***
+        ***REMOVED***
 ***REMOVED***;
 ***REMOVED******REMOVED***
+
+
 
 
 ***REMOVED***

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDO List</title>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Yeseva+One&display=swap" rel="stylesheet">
+    <link href="https://font s.googleapis.com/css2?family=Raleway&family=Yeseva+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -16,12 +16,14 @@
 
     <div class="box">
 
-        <% for(var i=0; i<newListItems.length; i++){ %>
-        <div class="item">
-            <input type="checkbox">
-            <p> <%= newListItems[i] %> </p>
-        </div>
-        <% ***REMOVED*** %>
+        <%newListItems.forEach(newListItem => { %>
+        <form action="/delete" method="post">
+            <div class="item">
+                <input type="checkbox" name="checkbox" value="<%=newListItem._id%>" onChange="this.form.submit()">
+                <p> <%= newListItem.name %> </p>
+            </div>
+        </form>
+        <% ***REMOVED***) %>
 
         <form class="item" action="/" method="post">
             <input type="text" name="newItem" placeholder="New Item" autocomplete="off" required>
