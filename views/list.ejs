@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDO List</title>
-    <link href="https://font s.googleapis.com/css2?family=Raleway&family=Yeseva+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Yeseva+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -22,13 +22,14 @@
                 <input type="checkbox" name="checkbox" value="<%=newListItem._id%>" onChange="this.form.submit()">
                 <p> <%= newListItem.name %> </p>
             </div>
+            <input type="hidden" name="listName" value="<%= listTitle %>">
         </form>
         <% ***REMOVED***) %>
 
         <form class="item" action="/" method="post">
             <input type="text" name="newItem" placeholder="New Item" autocomplete="off" required>
 
-            <button type="submit" name="list" value=<%= listTitle %>>+</button>
+            <button type="submit" name="list" value="<%= listTitle %>">+</button>
         </form>
 
     </div>

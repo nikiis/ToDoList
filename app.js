@@ -3,11 +3,11 @@
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
-const date = require(__dirname + '/date.js')
+***REMOVED***
+***REMOVED***
 
 ***REMOVED***
-// let items = ['eat food'];
-// let workItems = [];
+***REMOVED***
 
 ***REMOVED***
 ***REMOVED***
@@ -15,6 +15,16 @@ const date = require(__dirname + '/date.js')
     extended: true
 ***REMOVED***)***REMOVED***
 ***REMOVED***express.static('public')***REMOVED***
+
+let today = new Date(***REMOVED***
+
+***REMOVED***
+***REMOVED***
+***REMOVED***
+    month: 'long'
+***REMOVED***
+
+let day = today.toLocaleDateString("en-US", options***REMOVED***
 
 ***REMOVED***
 ***REMOVED***'mongodb://localhost/todolistDB', {
@@ -36,21 +46,15 @@ const item2 = new Item({
     name: 'drink water'
 ***REMOVED******REMOVED***
 
+***REMOVED***
+***REMOVED***
+    items: [itemsSchema]
+***REMOVED******REMOVED***
 
 const defaultItems = [item1, item2];
-
+const List = mongoose.model('List', listSchema***REMOVED***
 
 ***REMOVED***
-
-    let today = new Date(***REMOVED***
-
-    ***REMOVED***
-    ***REMOVED***
-    ***REMOVED***
-        month: 'long'
-    ***REMOVED***
-
-    let day = today.toLocaleDateString("en-US", options***REMOVED***
 
     Item.find({***REMOVED***, function (err, myItems) {
 ***REMOVED***
@@ -63,7 +67,7 @@ const defaultItems = [item1, item2];
                 res.redirect("/"***REMOVED***
         ***REMOVED***;
         ***REMOVED*** else {
-            console.log(myItems***REMOVED***
+            // console.log(myItems***REMOVED***
 ***REMOVED***
 ***REMOVED***
                 newListItems: myItems
@@ -77,28 +81,88 @@ const defaultItems = [item1, item2];
 ***REMOVED***
 
 ***REMOVED***
+***REMOVED***
 
 ***REMOVED***
         name: itemName
 ***REMOVED***;
 
-    item.save(***REMOVED***
-    res.redirect("/"***REMOVED***
+***REMOVED***
+        item.save(***REMOVED***
+        res.redirect("/"***REMOVED***
+    ***REMOVED*** else {
+***REMOVED***{
+            name: listName
+        ***REMOVED***, function (err, foundList) {
+            foundList.items.push(item***REMOVED***
+            foundList.save(***REMOVED***
+            res.redirect("/" + listName***REMOVED***
+    ***REMOVED***;
+    ***REMOVED***
 
 ***REMOVED******REMOVED***
 
 ***REMOVED***
 ***REMOVED***
+***REMOVED***
 
-    Item.findByIdAndRemove(checkedBoxId, function (err) {
+***REMOVED***
+***REMOVED***
+***REMOVED***
+                console.log(err***REMOVED***
+            ***REMOVED*** else {
+                res.redirect("/"***REMOVED***
+            ***REMOVED***
+    ***REMOVED***;
+    ***REMOVED*** else {
+***REMOVED***{
+            name: listName
+        ***REMOVED***, {
+            $pull: {
+                items: {
+                    _id: checkedBoxId
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***, function (err, foundList) {
+            if (!err) {
+                res.redirect("/" + listName***REMOVED***
+            ***REMOVED***
+    ***REMOVED***;
+    ***REMOVED***
+
+
+***REMOVED******REMOVED***
+
+
+app.get("/:customListName", function (req, res) {
+    const customListName = _.capitalize(req.params.customListName***REMOVED***
+
+    // console.log(customListName***REMOVED***
+***REMOVED***{
+        name: customListName
+    ***REMOVED***, function (err, foundList) {
         if (err) {
             console.log(err***REMOVED***
         ***REMOVED*** else {
-            res.redirect("/"***REMOVED***
+            if (!foundList) {
+                const list = new List({
+        ***REMOVED***
+                    items: defaultItems
+            ***REMOVED***;
+
+                list.save(***REMOVED***
+                res.redirect("/" + customListName***REMOVED***
+            ***REMOVED*** else {
+                res.render("list", {
+                    listTitle: foundList.name,
+                    newListItems: foundList.items
+            ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
 ***REMOVED***;
-***REMOVED******REMOVED***
 
+
+***REMOVED******REMOVED***
 
 
 
