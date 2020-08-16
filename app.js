@@ -39,19 +39,16 @@ let day = today.toLocaleDateString("en-US", options***REMOVED***
 const Item = mongoose.model('Item', itemsSchema***REMOVED***
 
 ***REMOVED***
-    name: 'eat food'
+    name: 'Add another item!'
 ***REMOVED******REMOVED***
 
-const item2 = new Item({
-    name: 'drink water'
-***REMOVED******REMOVED***
 
 ***REMOVED***
 ***REMOVED***
     items: [itemsSchema]
 ***REMOVED******REMOVED***
 
-const defaultItems = [item1, item2];
+***REMOVED***
 const List = mongoose.model('List', listSchema***REMOVED***
 
 ***REMOVED***
@@ -134,35 +131,35 @@ const List = mongoose.model('List', listSchema***REMOVED***
 ***REMOVED******REMOVED***
 
 
-app.get("/:customListName", function (req, res) {
-    const customListName = _.capitalize(req.params.customListName***REMOVED***
+// app.get("/:customListName", function (req, res) {
+//     const customListName = _.capitalize(req.params.customListName***REMOVED***
 
-    // console.log(customListName***REMOVED***
-***REMOVED***{
-        name: customListName
-    ***REMOVED***, function (err, foundList) {
-        if (err) {
-            console.log(err***REMOVED***
-        ***REMOVED*** else {
-            if (!foundList) {
-                const list = new List({
-        ***REMOVED***
-                    items: defaultItems
-            ***REMOVED***;
+//     // console.log(customListName***REMOVED***
+// ***REMOVED***{
+//         name: customListName
+//     ***REMOVED***, function (err, foundList) {
+//         if (err) {
+//             console.log(err***REMOVED***
+//         ***REMOVED*** else {
+//             if (!foundList) {
+//                 const list = new List({
+//         ***REMOVED***
+//                     items: defaultItems
+//             ***REMOVED***;
 
-                list.save(***REMOVED***
-                res.redirect("/" + customListName***REMOVED***
-            ***REMOVED*** else {
-                res.render("list", {
-                    listTitle: foundList.name,
-                    newListItems: foundList.items
-            ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-***REMOVED***;
+//                 list.save(***REMOVED***
+//                 res.redirect("/" + customListName***REMOVED***
+//             ***REMOVED*** else {
+//                 res.render("list", {
+//                     listTitle: foundList.name,
+//                     newListItems: foundList.items
+//             ***REMOVED***
+//             ***REMOVED***
+//         ***REMOVED***
+// ***REMOVED***;
 
 
-***REMOVED******REMOVED***
+// ***REMOVED******REMOVED***
 
 
 
