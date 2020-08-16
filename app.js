@@ -27,7 +27,7 @@ let today = new Date(***REMOVED***
 let day = today.toLocaleDateString("en-US", options***REMOVED***
 
 ***REMOVED***
-***REMOVED***'mongodb://localhost/todolistDB', {
+***REMOVED***'mongodb+srv://***REMOVED***/todolistDB', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 ***REMOVED******REMOVED***
