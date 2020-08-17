@@ -131,35 +131,35 @@ const List = mongoose.model('List', listSchema***REMOVED***
 ***REMOVED******REMOVED***
 
 
-// app.get("/:customListName", function (req, res) {
-//     const customListName = _.capitalize(req.params.customListName***REMOVED***
+app.get("/:customListName", function (req, res) {
+    const customListName = _.capitalize(req.params.customListName***REMOVED***
 
-//     // console.log(customListName***REMOVED***
-// ***REMOVED***{
-//         name: customListName
-//     ***REMOVED***, function (err, foundList) {
-//         if (err) {
-//             console.log(err***REMOVED***
-//         ***REMOVED*** else {
-//             if (!foundList) {
-//                 const list = new List({
-//         ***REMOVED***
-//                     items: defaultItems
-//             ***REMOVED***;
+    // console.log(customListName***REMOVED***
+***REMOVED***{
+        name: customListName
+    ***REMOVED***, function (err, foundList) {
+        if (err) {
+            console.log(err***REMOVED***
+        ***REMOVED*** else {
+            if (!foundList) {
+                const list = new List({
+        ***REMOVED***
+                    items: defaultItems
+            ***REMOVED***;
 
-//                 list.save(***REMOVED***
-//                 res.redirect("/" + customListName***REMOVED***
-//             ***REMOVED*** else {
-//                 res.render("list", {
-//                     listTitle: foundList.name,
-//                     newListItems: foundList.items
-//             ***REMOVED***
-//             ***REMOVED***
-//         ***REMOVED***
-// ***REMOVED***;
+                list.save(***REMOVED***
+                res.redirect("/" + customListName***REMOVED***
+            ***REMOVED*** else {
+                res.render("list", {
+                    listTitle: foundList.name,
+                    newListItems: foundList.items
+            ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+***REMOVED***;
 
 
-// ***REMOVED******REMOVED***
+***REMOVED******REMOVED***
 
 
 
