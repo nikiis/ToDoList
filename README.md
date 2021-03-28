@@ -5,7 +5,7 @@ Yes, it is yet another TODO List, but this time it actually **saves** your todo 
 You can view the deployed web app here: https://radiant-mountain-67773.herokuapp.com/
 
 You can also create a custom list by simply adding the name of your new todo list at the end of the URL. 
-For example: https://radiant-mountain-67773.herokuapp.com/<custom name> 
+For example: https://radiant-mountain-67773.herokuapp.com/\<custom name\> 
 
 To set this up locally, simply:
 - Clone/download this repo
