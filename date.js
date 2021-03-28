@@ -4,4 +4,4 @@ function getDate() {
 
 
     return day;
-***REMOVED***
+};

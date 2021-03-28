@@ -1,168 +1,174 @@
-***REMOVED***
+//jshint esversion:6
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+// const date = require(__dirname + '/date.js')
+const _ = require('lodash');
 
-***REMOVED***
-***REMOVED***
+const app = express();
+mongoose.set('useFindAndModify', false);
 
-***REMOVED***
-***REMOVED***
-***REMOVED***bodyParser.urlencoded({
-    extended: true
-***REMOVED***)***REMOVED***
-***REMOVED***express.static('public')***REMOVED***
+//using ejs as view engine
+app.set('view engine', 'ejs');
+app.use(
+    bodyParser.urlencoded({
+        extended: true,
+    })
+);
+app.use(express.static('public'));
 
-let today = new Date(***REMOVED***
+let today = new Date();
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
-    month: 'long'
-***REMOVED***
+let options = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+};
 
-let day = today.toLocaleDateString("en-US", options***REMOVED***
+function addMongodbSrv() {
+    return process.env.MONGODB_ENV == 'DEVELOPMENT' ? '' : '+srv';
+}
 
-***REMOVED***
-***REMOVED***'mongodb+srv://***REMOVED***/todolistDB', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-***REMOVED******REMOVED***
+let day = today.toLocaleDateString('en-US', options);
 
-***REMOVED***
-    name: String
-***REMOVED******REMOVED***
+//connect to mongoose
+mongoose.connect(
+    `mongodb${addMongodbSrv()}://${process.env.MONGODB_URI}/todolistDB`,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }
+);
 
-const Item = mongoose.model('Item', itemsSchema***REMOVED***
+const itemsSchema = new mongoose.Schema({
+    name: String,
+});
 
-***REMOVED***
-    name: 'Add another item!'
-***REMOVED******REMOVED***
+const Item = mongoose.model('Item', itemsSchema);
 
+const item1 = new Item({
+    name: 'Add another item!',
+});
 
-***REMOVED***
-***REMOVED***
-    items: [itemsSchema]
-***REMOVED******REMOVED***
+const listSchema = new mongoose.Schema({
+    name: String,
+    items: [itemsSchema],
+});
 
-***REMOVED***
-const List = mongoose.model('List', listSchema***REMOVED***
+const defaultItems = [item1];
+const List = mongoose.model('List', listSchema);
 
-***REMOVED***
+app.get('/', (req, res) => {
+    Item.find({}, function (err, myItems) {
+        if (myItems.length === 0) {
+            Item.insertMany(defaultItems, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('successfully added default items');
+                }
+                res.redirect('/');
+            });
+        } else {
+            // console.log(myItems);
+            res.render('list', {
+                listTitle: day,
+                newListItems: myItems,
+            });
+        }
+    });
+});
 
-    Item.find({***REMOVED***, function (err, myItems) {
-***REMOVED***
-***REMOVED***
-***REMOVED***
-                    console.log(err***REMOVED***
-                ***REMOVED*** else {
-                    console.log("successfully added default items"***REMOVED***
-                ***REMOVED***
-                res.redirect("/"***REMOVED***
-        ***REMOVED***;
-        ***REMOVED*** else {
-            // console.log(myItems***REMOVED***
-***REMOVED***
-***REMOVED***
-                newListItems: myItems
-        ***REMOVED***;
+app.post('/', function (req, res) {
+    let itemName = req.body.newItem;
+    let listName = req.body.list;
 
-        ***REMOVED***
-***REMOVED***;
+    const item = new Item({
+        name: itemName,
+    });
 
-***REMOVED******REMOVED***
+    if (listName === day) {
+        item.save();
+        res.redirect('/');
+    } else {
+        List.findOne(
+            {
+                name: listName,
+            },
+            function (err, foundList) {
+                foundList.items.push(item);
+                foundList.save();
+                res.redirect('/' + listName);
+            }
+        );
+    }
+});
 
-***REMOVED***
+app.post('/delete', function (req, res) {
+    const checkedBoxId = req.body.checkbox;
+    const listName = req.body.listName;
 
-***REMOVED***
-***REMOVED***
+    if (listName === day) {
+        Item.findByIdAndRemove(checkedBoxId, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.redirect('/');
+            }
+        });
+    } else {
+        List.findOneAndUpdate(
+            {
+                name: listName,
+            },
+            {
+                $pull: {
+                    items: {
+                        _id: checkedBoxId,
+                    },
+                },
+            },
+            function (err, foundList) {
+                if (!err) {
+                    res.redirect('/' + listName);
+                }
+            }
+        );
+    }
+});
 
-***REMOVED***
-        name: itemName
-***REMOVED***;
+app.get('/:customListName', function (req, res) {
+    const customListName = _.capitalize(req.params.customListName);
 
-***REMOVED***
-        item.save(***REMOVED***
-        res.redirect("/"***REMOVED***
-    ***REMOVED*** else {
-***REMOVED***{
-            name: listName
-        ***REMOVED***, function (err, foundList) {
-            foundList.items.push(item***REMOVED***
-            foundList.save(***REMOVED***
-            res.redirect("/" + listName***REMOVED***
-    ***REMOVED***;
-    ***REMOVED***
+    // console.log(customListName);
+    List.findOne(
+        {
+            name: customListName,
+        },
+        function (err, foundList) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (!foundList) {
+                    const list = new List({
+                        name: customListName,
+                        items: defaultItems,
+                    });
 
-***REMOVED******REMOVED***
+                    list.save();
+                    res.redirect('/' + customListName);
+                } else {
+                    res.render('list', {
+                        listTitle: foundList.name,
+                        newListItems: foundList.items,
+                    });
+                }
+            }
+        }
+    );
+});
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
-
-***REMOVED***
-***REMOVED***
-***REMOVED***
-                console.log(err***REMOVED***
-            ***REMOVED*** else {
-                res.redirect("/"***REMOVED***
-            ***REMOVED***
-    ***REMOVED***;
-    ***REMOVED*** else {
-***REMOVED***{
-            name: listName
-        ***REMOVED***, {
-            $pull: {
-                items: {
-                    _id: checkedBoxId
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***, function (err, foundList) {
-            if (!err) {
-                res.redirect("/" + listName***REMOVED***
-            ***REMOVED***
-    ***REMOVED***;
-    ***REMOVED***
-
-
-***REMOVED******REMOVED***
-
-
-app.get("/:customListName", function (req, res) {
-    const customListName = _.capitalize(req.params.customListName***REMOVED***
-
-    // console.log(customListName***REMOVED***
-***REMOVED***{
-        name: customListName
-    ***REMOVED***, function (err, foundList) {
-        if (err) {
-            console.log(err***REMOVED***
-        ***REMOVED*** else {
-            if (!foundList) {
-                const list = new List({
-        ***REMOVED***
-                    items: defaultItems
-            ***REMOVED***;
-
-                list.save(***REMOVED***
-                res.redirect("/" + customListName***REMOVED***
-            ***REMOVED*** else {
-                res.render("list", {
-                    listTitle: foundList.name,
-                    newListItems: foundList.items
-            ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-***REMOVED***;
-
-
-***REMOVED******REMOVED***
-
-
-
-***REMOVED***
-    console.log("listening on port 3000"***REMOVED***
-***REMOVED******REMOVED***
+app.listen(process.env.PORT || 3000, function () {
+    console.log('listening on port 3000');
+});
